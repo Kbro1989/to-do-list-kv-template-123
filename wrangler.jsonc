@@ -15,6 +15,10 @@
     {
       "binding": "TO_DO_LIST",
       "id": "d7ef69a08af64cf0812d9fe7ea1e0b24"
+    },
+    {
+      "binding": "MODEL_ASSETS",
+      "id": "YOUR_MODEL_ASSETS_KV_ID"
     }
   ]
 }

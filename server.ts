@@ -25,6 +25,7 @@ export default {
             },
             caches,
             env,
+            MODEL_ASSETS: env.MODEL_ASSETS,
           },
         },
       });
