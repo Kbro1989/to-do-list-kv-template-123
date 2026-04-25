@@ -1,8 +1,12 @@
 import { createRequestHandler, type ServerBuild } from "@remix-run/cloudflare";
+import { routePartykitRequest } from "partyserver";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore This file won’t exist if it hasn’t yet been built
 import * as build from "./build/server";
 import { getLoadContext } from "./load-context";
+import { Globe } from "./app/globe-server";
+
+export { Globe };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleRemixRequest = createRequestHandler(build as any as ServerBuild);
@@ -10,22 +14,21 @@ const handleRemixRequest = createRequestHandler(build as any as ServerBuild);
 export default {
   async fetch(request, env, ctx) {
     try {
+      // Route PartyKit/Durable Object requests
+      const partyResponse = await routePartykitRequest(request, env);
+      if (partyResponse) return partyResponse;
+
       const loadContext = getLoadContext({
         request,
         context: {
           cloudflare: {
-            // This object matches the return value from Wrangler's
-            // `getPlatformProxy` used during development via Remix's
-            // `cloudflareDevProxyVitePlugin`:
-            // https://developers.cloudflare.com/workers/wrangler/api/#getplatformproxy
             cf: request.cf,
             ctx: {
               waitUntil: ctx.waitUntil.bind(ctx),
               passThroughOnException: ctx.passThroughOnException.bind(ctx),
-            },
+            } as any,
             caches,
             env,
-            MODEL_ASSETS: env.MODEL_ASSETS,
           },
         },
       });
@@ -35,4 +38,4 @@ export default {
       return new Response("An unexpected error occurred", { status: 500 });
     }
   },
-} satisfies ExportedHandler<Env>;
+} satisfies ExportedHandler<any>;

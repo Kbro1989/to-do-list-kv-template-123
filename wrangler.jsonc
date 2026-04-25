@@ -20,5 +20,22 @@
       "binding": "MODEL_ASSETS",
       "id": "YOUR_MODEL_ASSETS_KV_ID"
     }
+  ],
+  "ai": {
+    "binding": "AI"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "Globe",
+        "class_name": "Globe"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["Globe"]
+    }
   ]
 }

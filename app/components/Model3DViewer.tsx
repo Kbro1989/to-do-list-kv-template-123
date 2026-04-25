@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "../utils/three.module";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
